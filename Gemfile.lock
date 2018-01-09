@@ -114,6 +114,10 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    dotenv (2.2.1)
+    dotenv-rails (2.2.1)
+      dotenv (= 2.2.1)
+      railties (>= 3.2, < 5.2)
     erubis (2.7.0)
     execjs (2.6.0)
     factory_girl (4.7.0)
@@ -375,6 +379,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise
+  dotenv-rails
   factory_girl_rails
   ffaker
   font-awesome-rails
@@ -414,4 +419,4 @@ DEPENDENCIES
   yui-compressor!
 
 BUNDLED WITH
-   1.12.5
+   1.16.1

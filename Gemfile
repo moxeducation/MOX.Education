@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'dotenv-rails'
 gem 'capybara'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'ckeditor'
