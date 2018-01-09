@@ -1,0 +1,5 @@
+p Hello.
+p
+  | User #{mail_to @user.email} (#{@user.company_name}) marked product &laquo;
+  a href="http://madeofx.net/#{@product.slug}" = @product.tiles.first.try(:title)
+  | &raquo; as ready for approve.

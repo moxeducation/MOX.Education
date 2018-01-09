@@ -1,0 +1,206 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title Madeofx
+
+    link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic,300italic,500italic,700italic" rel="stylesheet" type="text/css"
+    = stylesheet_link_tag :application, media: :all
+    = javascript_include_tag :application
+    = javascript_include_tag :editor if user_signed_in?
+    = csrf_meta_tags
+
+    = favicon_link_tag 'cropped-mox-32x32.jpg', sizes: '32x32'
+    = favicon_link_tag 'cropped-mox-192x192.jpg', sizes: '192x192'
+    link rel="apple-touch-icon-precomposed" href=image_url('cropped-mox-180x180.jpg')
+
+body.loading
+  #loading-overlay
+  #wrapper
+    #header
+      a#home href="#" data-bind="click: deselectProduct"
+
+      #search-box
+        label for="search" = fa_icon 'search'
+        input#search type="text" value=""
+
+      #history
+
+      ul#menu
+        - if user_signed_in?
+          li = link_to 'sign out', destroy_user_session_path, method: 'delete', class: 'signout'
+          li: a href="#" data-bind="click: showCompanyProducts" my kblocks
+          li: a href="#" data-dialog="profile" profile
+          li: a href="#" data-bind="click: showGroups" groups
+          - if current_user.role? :admin
+            li = link_to 'admin', admin_path
+            li: a href="#" data-bind="click: showUnapprovedProducts" unapproved
+          - if Tag.count > 0
+            li: a href="#" data-dialog="tags" tags
+          li.current-group data-bind="if: selectedGroup()"
+            a href="#" data-bind="click: reopenGroup, text: selectedGroup().name"
+        - else
+          li: a href="#" data-dialog="signup" sign up
+          li: a href="#" data-dialog="login" log in
+        li
+          a#logo href="#" data-dialog="about"
+
+      .clear
+
+    div#group-management data-bind="if: groupAdmin() && !showGroupsList() && !activeProduct()"
+
+      a.toggle-management-menu data-bind="click: toggleManagementMenu, text: 'Group Management' + (groupApplications().length ? ' +' + groupApplications().length : '')" Group Management
+
+      .management-section
+
+        .applications data-bind="if: groupApplications().length"
+          h2.applications-heading Applications
+          ul.applications-list data-bind="foreach: groupApplications"
+            li.application
+              span.application-title data-bind="text: user.email"
+              button.application-accept data-bind="click: $root.acceptApplication" Accept
+              button.application-decline data-bind="click: $root.declineApplication" Decline
+
+        .invitations data-bind="if: groupInvitations().length"
+          h2.invitations-heading Invitations
+          ul.invitations-list data-bind="foreach: groupInvitations"
+            li.invitation-title data-bind="text: user.email"
+
+        .group-users data-bind="if: groupUsers().length"
+          h2.group-users-heading Users
+          ul.group-users-list data-bind="foreach: groupUsers"
+            li.group-user data-bind="text: email"
+
+        .new-invitation
+          h2.new-invitation-heading Invite new user
+          form.new-invitation-form data-bind="submit: inviteUser"
+            label.new-invitation-label for="email" Email
+            input.new-invitation-email type="email" name="email" required="" data-bind="value: userInvitationEmail"
+            button.new-invitation-submit type="submit" Invite
+
+        .update-group
+          h2.update-group-heading Update group
+          form.update-group-form data-bind="submit: updateGroup"
+            label.update-group-label for="name" Name
+            input.update-group-name type="text" name="name" data-bind="value: selectedGroup() && selectedGroup().name"
+            .update-group-file
+              label.update-group-file-label for="file" Select Picture
+              input.update-group-file-input type='file' name='picture'
+            button.update-group-submit type="submit" Update
+
+        .delete-group data-bind="click: deleteGroup" Delete This Group
+
+
+    #tiles data-bind="if: !showGroupsList()"
+      #products-list.tiles data-bind="if: !activeProduct() && currentUser() && currentUser().persisted()"
+        div class="medium dummy add tile" data-bind="click: addProduct"
+        /! ko foreach: visibleProducts
+        a.medium.tile data-bind="\
+          if: tiles().length, \
+          css: { 'unapproved': !approved(), 'has-content': tiles()[0].isContentPreviewable() }, \
+          style: { 'background-image': tiles()[0].file().cssMedium() }, \
+          attr: { href: slugUrl(), 'data-id': id() }, \
+          click: $root.selectProduct"
+          div class="title tooltip" data-bind="text: tiles()[0].title()"
+        /! /ko
+      #product-tiles.tiles
+    #groups data-bind="template: { if: showGroupsList() }"
+      .create-group
+        h2.create-group-heading Create New Group
+        form.create-group-form data-bind="submit: createGroup"
+          label.create-group-label for="name" Name
+          input.create-group-name type="text" name="name" required=""
+          .create-group-file
+            label.create-group-file-label for="file" Select Picture
+            input.create-group-file-input type='file' name='picture'
+          button.create-group-submit type="submit" Create
+
+      .own-groups
+        h2.own-groups-title Your groups
+        .own-groups-list.tiles
+          .own-group.medium.dummy.add.tile data-bind="click: toggleCreateGroup"
+          /! ko foreach: { data: ownGroups, afterRender: updateOwnGroupsGrid }
+          .own-group.medium.tile data-bind="style: { backgroundImage: 'url(\'' + $data.picture_url + '\')' }"
+            .own-group-title data-bind="click: $root.openGroup, text: name"
+          /! /ko
+
+      .member-groups data-bind="if: groups().length"
+        h2.member-groups-title Groups you are member of
+        .member-groups-list.tiles data-bind="foreach: { data: groups, afterRender: updateMemberGroupsGrid }"
+          .member-group.medium.tile data-bind="style: { backgroundImage: 'url(\'' + $data.picture_url + '\')' }"
+            .member-group-title data-bind="click: $root.openGroup, text: name"
+
+      .invitations data-bind="if: invitations().length"
+        h2.invitations-title Invitations
+        .invitations-list.tiles data-bind="foreach: { data: invitations, afterRender: updateInvitationsGrid }"
+          .invitation.medium.tile data-bind="style: { backgroundImage: 'url(\'' + $data.group.picture_url + '\')' }"
+            .invitation-wrap
+              .invitation-title data-bind="text: group.name"
+              span.invitation-decline data-bind="click: $root.declineInvitation" title="Decline" &#x2a2f;
+              span.invitation-accept data-bind="click: $root.acceptInvitation" title="Accept" &#x2713;
+
+      .applications data-bind="if: applications().length"
+        h2.applications-title Your join requests
+        .applications-list.tiles data-bind="foreach: { data: applications, afterRender: updateApplicationsGrid }"
+          .application.medium.tile data-bind="style: { backgroundImage: 'url(\'' + $data.group.picture_url + '\')' }"
+            span.application-title data-bind="text: group.name"
+
+      a.toggle-other-groups-menu data-bind="click: toggleOtherGroupsMenu, if: otherGroups().length" Join Other Groups
+
+      .other-groups data-bind="if: otherGroups().length"
+        .other-groups-list.tiles data-bind="foreach: { data: otherGroups, afterRender: updateOtherGroupsGrid }"
+          .other-group.medium.tile data-bind="style: { backgroundImage: 'url(\'' + $data.picture_url + '\')' }"
+            .other-group-wrap
+              .other-group-title data-bind="text: name"
+              span.other-group-request data-bind="click: $root.sendApplication" title="Request to Join" &#x271a;
+
+  = render 'partials/dialogs'
+
+  = yield
+
+  #cache
+
+  script type="text/html" id="product-tile-editing-template"
+    .title data-bind="contentEditable: true, htmlLazy: title, placeholder: 'Enter title...', style: { color: titleColor }"
+    a.title-color
+      input type="text" data-bind="spectrum: titleColor"
+      span.tooltip Title color
+    .content-wrapper
+      textarea.content#edit-content data-bind="wysiwyg: content"
+    .file
+      .upload-buttons
+        a.upload-button.upload-button-image data-bind="css: { active: newFile().type() == 'image' }"
+          = fa_icon 'camera'
+          span.file: input type="file" accept="image/*" data-bind="file: { file: newFile().file, data: newFile().data, name: newFile().name }"
+          span.tooltip Select image
+        a.upload-button.upload-button-video data-bind="css: { active: newFile().type() == 'video' }"
+          = fa_icon 'video-camera'
+          span.file: input type="file" accept="video/*" data-bind="file: { file: newFile().file, data: newFile().data, name: newFile().name }"
+          span.tooltip Select video
+        a.upload-button.upload-button-pdf data-bind="css: { active: newFile().type() == 'pdf' }"
+          = fa_icon 'file'
+          span.file: input type="file" accept="application/pdf" data-bind="file: { file: newFile().file, data: newFile().data, name: newFile().name }"
+          span.tooltip Select PDF document
+      a.clear-file href="#" data-bind="visible: hasFile, click: clearFile"
+        = fa_icon 'trash-o'
+        span.tooltip Remove file
+      .tip title="Tip: you can insert URL to video on YouTube or Vimeo as content." Tip: you can insert URL to video on YouTube or Vimeo as content.
+    .buttons
+      a.cancel href="#" data-bind="click: cancel"
+        = fa_icon 'ban'
+        span.tooltip Cancel
+      a.save href="#" data-bind="click: save"
+        #save_button = fa_icon 'floppy-o'
+        span.tooltip Save
+    .drag-n-drop
+      .inner
+        h1 Drag here to link product
+
+  javascript:
+    window.preloadedData = #{raw(render partial: 'preloaded_data.json')}
+
+  javascript:
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-77271897-1', 'auto');
+    ga('send', 'pageview');

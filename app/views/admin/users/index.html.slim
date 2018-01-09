@@ -1,0 +1,42 @@
+.row
+  .col-md-12
+    .panel.panel-default
+      table.table.table-hover.members-table.middle-align
+        thead
+          tr
+            th Company name
+            th Email
+            th Products count
+            th Tiles count
+            th
+        tbody
+          - @users.each do |user|
+            tr
+              td.user-name
+                = link_to user.company_name, admin_user_path(user), class: 'name'
+                span = t user.role, scope: [:user, :roles]
+              td
+                = mail_to user.email, user.email, class: 'email'
+              td
+                - unless user.products.approved.empty?
+                  .text-success #{user.products.approved.count} approved products
+                - unless user.products.disapproved.empty?
+                  .text-danger #{user.products.disapproved.count} unapproved products
+                - if user.products.empty?
+                  | -
+              td
+                - unless user.tiles.approved.empty?
+                  .text-success #{user.tiles.approved.count} approved tiles
+                - unless user.tiles.disapproved.empty?
+                  .text-danger #{user.tiles.disapproved.count} unapproved tiles
+                - if user.tiles.empty?
+                  | -
+              td.action-links
+                = link_to admin_user_path(user), class: 'edit' do
+                  = fa_icon 'pencil'
+                  |  Edit
+                - if can? :destroy, user
+                  = link_to admin_user_path(user), class: 'delete', method: 'delete', 'data-confirm' => 'Are you sure want to delete this user?' do
+                    = fa_icon 'trash-o'
+                    |  Delete
+= will_paginate @users, renderer: BootstrapPagination::Rails

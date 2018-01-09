@@ -1,0 +1,14 @@
+.row
+  .col-md-12
+    .panel.panel-default
+      = simple_form_for @tag, url: (@tag.persisted? ? admin_tag_path(@tag) : admin_tags_path), html: { class: 'form-horizontal' } do |f|
+        = f.input :name
+        = f.input :image
+        = f.input :approved
+        .text-right
+          - if @tag.persisted? && can?(:destroy, @tag)
+            = link_to 'Delete tag', admin_tag_path(@tag), class: 'btn btn-danger', method: 'delete', 'data-confirm' => 'Are you sure want to delete this tag?'
+          = f.submit class: 'btn btn-primary'
+h3 Products
+br
+= render 'admin/products/list', products: @tag.products

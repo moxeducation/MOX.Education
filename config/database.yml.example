@@ -1,0 +1,7 @@
+production:
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  database: ENV['DATABASE_NAME']
+  username: ENV['DATABASE_USER']
+  password: ENV['DATABASE_PASSWORD']

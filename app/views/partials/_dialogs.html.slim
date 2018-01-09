@@ -1,0 +1,30 @@
+#dialog-wrapper
+  - if user_signed_in?
+    = render 'partials/profile'
+  - else
+    = render 'partials/log_in'
+    = render 'partials/sign_up'
+    = render 'partials/reset_password'
+    = render 'partials/change_password'
+  .dialog#about
+    = render 'partials/about'
+  .dialog#tags
+    h4 tags
+    .tags
+  .dialog#tags-select
+    h4 tags
+    .tags
+    .clear
+    input.new-tag type="button" data-dialog="new-tag" value="New tag"
+    input.save type="button" value="Save"
+  .dialog#new-tag
+    h4 new tag
+    br
+    .image.empty
+      .tooltip = fa_icon 'camera'
+      input.image type="file" accept="image/*"
+    .name
+      label tag name
+      input.name type="text" value=""
+    br
+    input.save type="button" value="Save"

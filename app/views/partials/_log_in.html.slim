@@ -1,0 +1,8 @@
+.dialog#login
+  a href="#" data-dialog="restore" forgot password?
+  h4 log in
+  = form_for User.new, url: user_session_path, method: 'post', format: 'json', remote: true do |f|
+    = f.email_field :email, placeholder: 'email', required: true
+    = f.password_field :password, placeholder: 'password', required: true
+    span.error
+    = f.submit 'log in'

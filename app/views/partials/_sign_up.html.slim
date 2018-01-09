@@ -1,0 +1,9 @@
+.dialog#signup
+  h4 sign up
+  = form_for User.new, url: user_registration_path, method: 'post', format: 'json', remote: true do |f|
+    = f.email_field :email, placeholder: 'email', required: true
+    = f.password_field :password, placeholder: 'password', required: true
+    = f.password_field :password_confirmation, placeholder: 'confirm password', required: true
+    = f.text_field :company_name, placeholder: 'company name', required: true
+    span.error
+    = f.submit 'sign up'

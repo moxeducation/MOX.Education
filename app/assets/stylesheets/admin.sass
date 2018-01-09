@@ -1,0 +1,47 @@
+//= require_self
+//= require bootstrap
+//= require xenon
+//= require font-awesome
+
+.page-container .main-content .page-title .breadcrumb-env .breadcrumb
+  margin-top: 6px !important
+
+  &.bc-1
+    padding: 0 30px
+
+.user-info-navbar .user-info-menu > li.search-form .search-field, .navbar.horizontal-menu .navbar-inner > .nav > li.search-form .search-field
+  width: 270px !important
+
+.pagination
+  margin: 0 !important
+
+header .logo img
+  max-width: 100%
+
+.album-image
+  background: #234 !important
+
+  &.approved
+    background: #282 !important
+  &.disapproved
+    background: #822 !important
+
+  .name, .name span
+    color: #fff !important
+
+  .name
+    width: 66% !important
+  .image-options
+    width: 33% !important
+
+  .image-options .btn
+    margin-bottom: 0
+
+    &.btn-disapprove
+      transform: scaleY(-1)
+
+.members-table tbody tr td a.email
+  cursor: pointer
+
+.page-title .pull-right:first-child
+  margin-right: 2em

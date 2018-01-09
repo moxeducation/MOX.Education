@@ -1,0 +1,22 @@
+section.gallery-env
+  .album-images.row
+    - products.each do |product|
+      .col-md-2.col-sm-3.col-xs-4
+        .album-image class=(product.approved? ? 'approved' : 'disapproved')
+          = link_to admin_product_path(product), class: 'thumb' do
+            - if product.tiles.empty? || product.tiles.first.file.blank?
+              = image_tag 'album-img-1.png'
+            - else
+              = image_tag product.tiles.first.file.to_s(:medium)
+          = link_to admin_product_path(product), class: 'name' do
+            span = product.tiles.first.try(:title).presence || '<nameless product>'
+            div = product.user.company_name
+          .image-options
+            - if product.approved?
+              = link_to disapprove_admin_product_path(product), class: 'btn btn-sm btn-default btn-disapprove' do
+                = fa_icon 'thumbs-up'
+            - else
+              = link_to approve_admin_product_path(product), class: 'btn btn-sm btn-default btn-approve' do
+                = fa_icon 'thumbs-up'
+            = link_to admin_product_path(product), class: 'btn btn-sm btn-default', method: 'delete', 'data-confirm' => 'Are you sure want to delete this product?' do
+              = fa_icon 'trash'

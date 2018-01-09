@@ -1,0 +1,262 @@
+//= require reset
+//= require_self
+//= require about
+
+html, body
+  height: 100%
+  min-height: 100%
+
+  font-family: Roboto, sans-serif
+  font-size: 1rem
+  color: #222
+
+h1
+  font-size: 1.7rem
+  padding-bottom: 0.9rem
+h2
+  font-size: 1.6rem
+  padding-bottom: 0.8rem
+h3
+  font-size: 1.5rem
+  padding-bottom: 0.7rem
+h4
+  font-size: 1.4rem
+  padding-bottom: 0.6rem
+h5
+  font-size: 1.3rem
+  padding-bottom: 0.5rem
+h6
+  font-size: 1.2rem
+  padding-bottom: 0.4rem
+
+.clear
+  clear: both
+
+#wrapper
+  position: fixed
+
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+  min-width: 60rem
+  min-height: 30rem
+
+  overflow: visible
+
+#grid
+  position: absolute
+
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+
+  overflow: visible
+
+  .tile
+    position: absolute
+
+    width: 8rem
+    height: 8rem
+
+    margin: 0.1rem
+    padding: 1rem
+
+    box-sizing: border-box
+
+    background: #fff
+    box-shadow: 0 0 2px #888 inset
+
+    overflow: hidden
+    z-index: 1
+
+    &.special
+      cursor: pointer
+      z-index: 10
+
+      transition: 0.5s all
+
+      &:hover
+        box-shadow: 0 0 0.5rem #888 inset
+
+      &.hidden
+        width: 0
+        height: 0
+        padding: 0
+        z-index: -1
+
+      &> h3
+        margin: 1rem 0 1.5rem 0
+
+        font-size: 1.8rem
+        text-align: center
+        line-height: 4rem
+
+      &.active
+        padding: 1rem
+
+        cursor: default
+        z-index: 100
+        overflow: auto
+
+        &:hover
+          box-shadow: 0 0 2px #888 inset
+
+        &> h3
+          font-size: 1.5rem
+          text-align: left
+          line-height: 1.5rem
+
+        .content
+          top: 0
+
+          display: block
+          opacity: 1
+
+    .image
+      position: absolute
+
+      top: 30%
+      left: 30%
+      width: 0
+      height: 0
+
+      background: no-repeat center center
+      background-size: cover
+
+      -webkit-filter: url(#blur)
+      filter: url(#blur)
+      -webkit-filter: blur(5px)
+      filter: blur(5px)
+      -webkit-transition: 1s -webkit-filter linear
+      transition: 1s all
+
+      &:hover
+        -webkit-filter: blur(0px)
+        filter: blur(0px)
+
+    .content
+      position: relative
+
+      top: 100%
+
+      opacity: 0
+      transition: 0.5s all
+
+.tile.special
+  a[data-dialog]
+    float: right
+
+    text-decoration: none
+    color: #22e
+
+    &:hover
+      text-decoration: underline
+
+input[type=text], input[type=password], input[type=email], textarea
+  position: relative
+  display: block
+
+  width: 100%
+  box-sizing: border-box
+
+  margin: 0.5rem 0
+  padding: 0.2rem 0.4rem
+
+  background: #fff
+  border: solid 1px #ccc
+
+  font-family: Roboto, sans-serif
+  font-size: 1.1rem
+  line-height: 1.4rem
+
+input[type=submit], input[type=button]
+  position: relative
+  display: inline-block
+  cursor: pointer
+  clear: both
+  float: right
+
+  margin: 0.5rem 0
+  padding: 0.3rem 1rem
+
+  background: #fdab33
+  border: solid 1px #cc8b29
+  border: none
+
+  font-family: Roboto, sans-serif
+  font-size: 1.1rem
+
+  transition: 0.2s all
+
+  &:hover
+    background: #fcc065
+
+span.error
+  position: relative
+  display: inline-block
+  float: right
+
+  margin: 0 0 0.5rem 0
+
+  color: #922
+
+#noty_topRight_layout_container
+  width: 400px !important
+
+  &> li
+    width: 400px !important
+
+.noty_message
+  padding: 1rem 2rem !important
+  font-size: 1rem !important
+  line-height: 1.1rem !important
+  white-space: nowrap !important
+
+.content, .content-wrapper
+  font-family: Calibri, sans-serif
+  line-height: 1.2em
+
+  p
+    margin-top: 1em
+
+    &:first-child
+      margin-top: 0
+  strong, b
+    font-weight: bold
+  rem, i
+    font-style: italic
+  u
+    text-decoration: underline
+  ul
+    list-style: disc inside
+  ol
+    list-style: decimal inside
+  code
+    font-family: monospace
+  sup
+    font-size: 0.7rem
+    vertical-align: super
+  sub
+    font-size: 0.7rem
+    vertical-align: sub
+  a
+    text-decoration: none
+    color: #22e
+
+    &:hover
+      text-decoration: underline
+
+#cache
+  position: relative
+
+  top: 0
+  left: 0
+  width: 0
+  height: 0
+
+  opacity: 0
+
+  overflow: hidden

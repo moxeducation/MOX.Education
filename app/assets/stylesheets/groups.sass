@@ -1,0 +1,228 @@
+#groups
+  .groups--tile-title
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    padding: 1rem
+    box-shadow: 0 0 0.5rem #ddd inset
+    font-size: 1.2rem
+    word-wrap: break-word
+    transition: 0.2s all
+    &:hover
+      background-color: rgba(255, 255, 255, 0.5)
+
+  .groups--hidden_marker
+    visibility: hidden
+    position: absolute
+    cursor: pointer
+    font-size: x-large
+    transition: visibility 0s, opacity 0.3s linear
+    opacity: 0
+
+  .groups--visible-marker
+    visibility: visible
+    opacity: 1
+
+  .create-group
+    display: none
+    margin: 20px
+    .create-group-heading
+    .create-group-form
+      &>*
+        display: inline-block
+      .create-group-label
+        margin-right: 10px
+      .create-group-name
+        width: auto
+        margin: 0 10px
+      .create-group-file
+        vertical-align: middle
+        margin: 0 10px
+        .create-group-file-input
+          margin-top: 2px
+          display: block
+      .create-group-submit
+        margin-left: 10px
+
+  .own-groups
+    margin: 20px
+    .own-groups-title
+    .own-groups-list
+      .own-group
+        cursor: pointer
+        .own-group-title
+          @extend .groups--tile-title
+
+  .member-groups
+    margin: 20px
+    .member-groups-title
+    .member-groups-list
+      .member-group
+        cursor: pointer
+        .member-group-title
+          @extend .groups--tile-title
+
+  .invitations
+    margin: 20px
+    .invitations-title
+    .invitations-list
+      .invitation
+        cursor: default
+        .invitation-wrap
+          @extend .groups--tile-title
+          .invitation-title
+          .invitation-button
+            @extend .groups--hidden_marker
+          .invitation-accept
+            @extend .invitation-button
+            bottom: 16px
+            right: 16px
+          .invitation-decline
+            @extend .invitation-button
+            bottom: 16px
+            left: 16px
+          &:hover
+            .invitation-button
+              @extend .groups--visible-marker
+
+  .applications
+    margin: 20px
+    .applications-title
+    .applications-list
+      .application
+        cursor: default
+        .application-title
+          @extend .groups--tile-title
+
+  .toggle-other-groups-menu
+    display: block
+    margin: 0 20px
+    font-size: 1.2rem
+    line-height: 3rem
+    color: #222
+    text-decoration: none
+    cursor: pointer
+    text-align: center
+    &:hover
+      background-color: #eee
+
+  .other-groups
+    display: none
+    margin: 20px
+    .other-groups-title
+    .other-groups-list
+      .other-group
+        cursor: default
+        .other-group-wrap
+          @extend .groups--tile-title
+          .other-group-title
+          .other-group-request
+            @extend .groups--hidden_marker
+            bottom: 16px
+            right: 16px
+          &:hover
+            .other-group-request
+              @extend .groups--visible-marker
+
+#group-management
+
+  .toggle-management-menu
+    display: block
+    margin: 0
+    font-size: 1.2rem
+    line-height: 3rem
+    color: #222
+    text-decoration: none
+    cursor: pointer
+    text-align: center
+    &:hover
+      background-color: #eee
+
+  .management-section
+    display: none
+
+  .group-management--list
+    padding-left: 20px
+    list-style-type: circle
+
+  .new-invitation
+    margin: 20px
+    .new-invitation-heading
+    .new-invitation-form
+      margin: 5px
+      &>*
+        display: inline-block
+      .new-invitation-label
+        margin-right: 10px
+      .new-invitation-email
+        width: auto
+        margin: 0 10px
+      .new-invitation-submit
+        margin-left: 10px
+
+  .applications
+    margin: 20px
+    .applications-heading
+    .applications-list
+      @extend .group-management--list
+      .application
+        margin: 8px 0
+        &>*
+          display: inline-block
+        .application-title
+          margin-right: 10px
+        .application-accept
+          margin: 0 10px
+        .application-decline
+          margin-left: 10px
+
+  .invitations
+    margin: 20px
+    .invitations-heading
+    .invitations-list
+      @extend .group-management--list
+      .invitation-title
+        margin: 8px 0
+
+  .group-users
+    margin: 20px
+    .group-users-heading
+    .group-users-list
+      @extend .group-management--list
+      .group-user
+        margin: 8px 0
+
+  .update-group
+    margin: 20px
+    .update-group-heading
+    .update-group-form
+      &>*
+        display: inline-block
+      .update-group-label
+        margin-right: 10px
+      .update-group-name
+        width: auto
+        margin: 0 10px
+      .update-group-file
+        vertical-align: middle
+        margin: 0 10px
+        .update-group-file-input
+          margin-top: 2px
+          display: block
+      .update-group-submit
+        margin-left: 10px
+
+  .delete-group
+    display: inline-block
+    margin: 10px 20px 20px
+    padding: 0 16px
+    font-size: 1.2rem
+    line-height: 3rem
+    color: #222
+    text-decoration: none
+    cursor: pointer
+    text-align: center
+    &:hover
+      background-color: rgba(255, 0, 0, 0.25)

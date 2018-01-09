@@ -1,0 +1,21 @@
+section.gallery-env
+  .album-images.row
+    - tags.each do |tag|
+      .col-md-2.col-sm-3.col-xs-4
+        .album-image class=(tag.approved? ? nil : 'disapproved')
+          = link_to admin_tag_path(tag), class: 'thumb' do
+            - if tag.image.blank?
+              = image_tag 'album-img-1.png'
+            - else
+              = image_tag tag.image.to_s(:medium)
+          = link_to admin_tag_path(tag), class: 'name' do
+            span = tag.try(:name).presence || '<nameless tag>'
+          .image-options
+            - if tag.approved?
+              = link_to disapprove_admin_tag_path(tag), class: 'btn btn-sm btn-default btn-disapprove' do
+                = fa_icon 'thumbs-up'
+            - else
+              = link_to approve_admin_tag_path(tag), class: 'btn btn-sm btn-default btn-approve' do
+                = fa_icon 'thumbs-up'
+            = link_to admin_tag_path(tag), class: 'btn btn-sm btn-default', method: 'delete', 'data-confirm' => 'Are you sure want to delete this tag?' do
+              = fa_icon 'trash'

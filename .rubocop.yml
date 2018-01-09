@@ -1,0 +1,16 @@
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'log/**/*'
+    - 'spec/support/**/*'
+Metrics/LineLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false

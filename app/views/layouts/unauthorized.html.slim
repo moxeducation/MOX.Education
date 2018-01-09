@@ -1,0 +1,69 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title Madeofx
+
+    link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic,300italic,500italic,700italic" rel="stylesheet" type="text/css"
+    = stylesheet_link_tag :unauthorized, media: :all
+    = javascript_include_tag :unauthorized
+    = csrf_meta_tags
+
+    = favicon_link_tag 'cropped-mox-32x32.jpg', sizes: '32x32'
+    = favicon_link_tag 'cropped-mox-192x192.jpg', sizes: '192x192'
+    link rel="apple-touch-icon-precomposed" href=image_url('cropped-mox-180x180.jpg')
+
+    = render 'partials/meta_tags'
+body
+  #wrapper
+    #grid
+      .tile.special#login
+        h3 log in
+        .content
+          a href="#" data-dialog="restore" forgot password?
+          = form_for User.new, url: user_session_path, method: 'post', format: 'json', remote: true do |f|
+            = f.email_field :email, placeholder: 'email', required: true
+            = f.password_field :password, placeholder: 'password', required: true
+            span.error
+            = f.submit 'log in'
+      .tile.special.hidden#restore
+        h3 reset password
+        .content
+          = form_for User.new, url: user_password_path, method: 'post', format: 'json', remote: true do |f|
+            = f.email_field :email, placeholder: 'email', required: true
+            span.error
+            = f.submit 'send instructions'
+      .tile.special#signup
+        h3 sign up
+        .content
+          = form_for User.new, url: user_registration_path, method: 'post', format: 'json', remote: true do |f|
+            = f.email_field :email, placeholder: 'email', required: true
+            = f.password_field :password, placeholder: 'password', required: true
+            = f.password_field :password_confirmation, placeholder: 'confirm password', required: true
+            = f.text_field :company_name, placeholder: 'company name', required: true
+            span.error
+            = f.submit 'sign up'
+      .tile.special.hidden#change-password
+        h3 change password
+        .content
+          = form_for User.new, url: user_password_path, method: 'put', format: 'json', remote: true do |f|
+            = f.hidden_field :reset_password_token, value: params[:reset_password_token]
+            = f.password_field :password, placeholder: 'password', required: true
+            = f.password_field :password_confirmation, placeholder: 'confirm password', required: true
+            span.error
+            = f.submit 'change'
+      .tile.special#about
+        h3 about
+        = render 'partials/about'
+  #cache
+
+  = yield
+
+  javascript:
+    window.preloadedData = #{raw(render partial: 'random_tile_images.json')}
+
+  javascript:
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-77271897-1', 'auto');
+    ga('send', 'pageview');

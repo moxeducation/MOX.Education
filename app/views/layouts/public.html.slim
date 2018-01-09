@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    title Madeofx
+
+    link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700,400italic,300italic,500italic,700italic" rel="stylesheet" type="text/css"
+    = stylesheet_link_tag :application, media: :all
+    = javascript_include_tag :application
+    = javascript_include_tag :editor if user_signed_in?
+    = csrf_meta_tags
+
+    = favicon_link_tag 'cropped-mox-32x32.jpg', sizes: '32x32'
+    = favicon_link_tag 'cropped-mox-192x192.jpg', sizes: '192x192'
+    link rel="apple-touch-icon-precomposed" href=image_url('cropped-mox-180x180.jpg')
+
+body.loading
+  #loading-overlay
+  #wrapper style="padding: 0 1rem 1rem 1rem;"
+    #header style="padding: 1rem 0 2rem 0;"
+      a#home href="/" target="_blank"
+      ul#menu
+        li
+          a#logo href="#" data-dialog="about"
+
+      .clear
+
+    #tiles
+      #product-tiles.tiles
+
+  = render 'partials/dialogs'
+
+  = yield
+
+  javascript:
+    window.preloadedData =
+    #{raw(render partial: 'public_data.json')}
+

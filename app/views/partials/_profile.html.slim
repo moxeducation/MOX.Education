@@ -1,0 +1,14 @@
+.dialog#profile
+  h4 profile
+  = form_for current_user, url: user_registration_path, method: 'put', format: 'json', remote: true do |f|
+    = f.email_field :email, placeholder: 'email', required: true
+    = f.text_field :company_name, placeholder: 'company name', required: true
+    = f.submit 'update'
+  .clear
+  br
+  h4 change password
+  = form_for current_user, url: user_registration_path, method: 'put', format: 'json', remote: true do |f|
+    = f.password_field :current_password, placeholder: 'current password'
+    = f.password_field :password, placeholder: 'password'
+    = f.password_field :password_confirmation, placeholder: 'confirm password'
+    = f.submit 'update'

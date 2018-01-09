@@ -1,0 +1,12 @@
+/.bundle
+/.ruby-*
+/log/*
+!/log/.keep
+/tmp
+/coverage
+/public/system
+/public/assets
+.idea
+/spec/examples.txt
+config/database.yml
+.env

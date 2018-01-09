@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    .panel.panel-default
+      = simple_form_for @user, url: admin_user_path(@user), html: { class: 'form-horizontal' } do |f|
+        = f.input :email
+        = f.input :company_name
+        - unless @user.id == current_user.id
+          = f.input :role, collection: Hash[User::ROLES.map{|role| [t(role, scope: [:user, :roles]), role] }]
+        = f.input :notificable
+        = f.input :password
+        = f.input :password_confirmation
+        .text-right
+          - if can? :destroy, @user
+            = link_to 'Delete User', admin_user_path(@user), class: 'btn btn-danger', method: 'delete', 'data-confirm' => 'Are you sure want to delete this user?'
+          = f.submit class: 'btn btn-primary'
+h3 Products
+br
+= render 'admin/products/list', products: @user.products
