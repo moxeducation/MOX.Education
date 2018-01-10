@@ -20,7 +20,7 @@ gem 'paperclip'
 gem 'paperclip-av-transcoder'
 gem 'paperclip-ghostscript'
 gem 'poltergeist'
-gem 'rails', '4.2.5.2'
+gem 'rails', '~> 4.2'
 gem 'selenium-webdriver'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sass-rails'
