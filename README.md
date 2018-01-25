@@ -1,4 +1,4 @@
 # Mox Education
 
-[Wireframes](https://github.com/moxeducation/MOX.Education/blob/master/MOX%20wireframes.pdf)
+For Wireframes and Concept explained, read the Wiki
 
